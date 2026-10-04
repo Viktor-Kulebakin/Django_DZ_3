@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'employees',
     'workplaces',
+    'django_cleanup.apps.CleanupConfig', 
 ]
 
 MIDDLEWARE = [

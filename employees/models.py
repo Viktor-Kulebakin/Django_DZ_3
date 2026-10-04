@@ -83,6 +83,7 @@ class EmployeeSkill(models.Model):
         return f"{self.skill.name} ({self.level})"
 
 
+# Галерея изображений (К3) — Переведена на FileField
 class EmployeeImage(models.Model):
     employee = models.ForeignKey(
         EmployeeProfile, 
@@ -90,10 +91,13 @@ class EmployeeImage(models.Model):
         related_name='images', 
         verbose_name="Сотрудник"
     )
-    image = models.ImageField(
+    
+    # Использование FileField вместо ImageField
+    image = models.FileField(
         upload_to='employee_gallery/', 
         verbose_name="Изображение"
     )
+    
     position = models.PositiveIntegerField(
         default=1, 
         verbose_name="Порядковый номер"
@@ -107,10 +111,4 @@ class EmployeeImage(models.Model):
     def __str__(self):
         return f"Фото {self.position} для {self.employee.last_name}"
 
-
-# Автоматическое физическое удаление файлов картинок с диска
-@receiver(post_delete, sender=EmployeeImage)
-def auto_delete_file_on_delete(sender, instance, **kwargs):
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+# СТАРЫЙ СИГНАЛ @receiver(post_delete...) ПОЛНОСТЬЮ УДАЛЕН ОТСЮДА!
